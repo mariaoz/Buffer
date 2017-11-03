@@ -1,12 +1,15 @@
-package org.accenture.buffer ;
+﻿package org.accenture.buffer ;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class Buffer {
-  private Queue buffer ;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+public class Buffer<T> {//generico
+  private Queue<T> buffer ;
   private int capacity ;
   int numerOperationPut = 0 ;
   int numberOperationGet = 0 ;
@@ -17,68 +20,44 @@ public class Buffer {
    */
   public Buffer(int bufferSize) {
     capacity = bufferSize ;
-    buffer = new LinkedList() ;
+    buffer = new LinkedList<T>() ;
   }
+  private static final Logger LOGGER=LogManager.getLogger(Buffer.class);
 
-  public void put(Object element) {
-<<<<<<< HEAD
-	  if (buffer.size() == capacity)//si es igual al tope de capacidad sale del programa
-=======
+  public void put(T element) throws BufferException {
 	  if (buffer.size() == capacity)
->>>>>>> 0ecb3051d5997e1bebc3adf1e0c2167a61b658ed
-		  System.exit(-1); ;
+	        throw new BufferException("\n El buffer está lleno") ;
 
-      System.out.println("Element inserted");
+      LOGGER.info("Element inserted");
 
-<<<<<<< HEAD
-	  buffer.add(element) ; //sino añade elemento y aumeta el contador de elementos
-=======
-	  buffer.add(element) ;
->>>>>>> 0ecb3051d5997e1bebc3adf1e0c2167a61b658ed
+	  buffer.add(element) ; 
 	  numerOperationPut++ ;
   }
 
-  public Object get() throws BufferException {
+  public T get() throws BufferException {
     if (buffer.isEmpty()) 
-<<<<<<< HEAD
-        throw new BufferException("\n El buffer está vacío") ;//si está vacío lanza excepción
-
-    Object value = buffer.remove() ; //sino lo borra y lo almacena en value que después lo extrae
-  System.out.println("Element extracted");
-    
-  numberOperationGet++ ; //aumenta el extraido
-=======
         throw new BufferException("\n El buffer está vacío") ;
 
-    Object value = buffer.remove() ;
-  System.out.println("Element extracted");
+    T value = buffer.remove() ; 
+    LOGGER.info("Element extracted");
     
-  numberOperationGet++ ;
->>>>>>> 0ecb3051d5997e1bebc3adf1e0c2167a61b658ed
+  numberOperationGet++ ; 
     return value ;
   }
-
-  public int GetNumberOfElements() {
+  
+  public int getNumberOfElements() {
     return buffer.size() ;
   }
 
-<<<<<<< HEAD
   public int getNumberOfHoles() {
-    return capacity - buffer.size() ; //numero de huecos
-  }
-
-  public int getCapacity() {
-=======
-  public int get_number_of_holes() {
     return capacity - buffer.size() ;
   }
 
-  public int gc() {
->>>>>>> 0ecb3051d5997e1bebc3adf1e0c2167a61b658ed
+  public int getCapacity() {
     return capacity ;
   }
   
-  public double getNumberOfOperations() {
+  public int getNumberOfOperations() {
 	  return numerOperationPut + numberOperationGet ;
   }
 }
